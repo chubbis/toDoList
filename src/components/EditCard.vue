@@ -19,6 +19,9 @@
             ...mapGetters(['getEditingCard']),
         },
         methods: {
+            /**
+             * Сохраняет внесенные изменения
+             */
             saveEditsAndExit() {
                 this.$emit('saveEditedChanges', this.getEditingCard)
             }

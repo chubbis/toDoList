@@ -20,6 +20,7 @@
                     <render-list v-for="card in getLimitList"
                                  :key="card.id"
                                  :card="card"
+                                 @saveIsDoneStatus="saveIsDoneStatus"
                                  @remove="removeCard"
                                  @goToEdit="goToEditCard"
                     >
@@ -44,6 +45,7 @@
 
     export default {
         name: 'app',
+
         computed: mapGetters(['getAllCards',
             'getShowEdit',
             'getCurrentPage',
@@ -54,18 +56,37 @@
             ...mapMutations(['changeEditingCardData',
                 'changeShowEdit',
                 'changeCurrentPage',
-                'setCurrentPageFirst']),
+                'setCurrentPageFirst',
+                'changeIsDoneStatus']),
+            /**
+             * переход к странице редактирования задачи.
+             * @param card - obj Объект редактируемого элемента
+             */
             goToEditCard(card){
                 this.changeEditingCardData(card);
                 this.changeShowEdit();
             },
+            /**
+             * Сохраняет изменения после редактирования статьи
+             * @param card obj
+             */
             saveEdited(card){
                 this.saveEdits(card);
                 this.setCurrentPageFirst();
                 this.changeShowEdit();
             },
+            /**
+             * Сохранить статус выполнения задачи
+             */
+            saveIsDoneStatus(card){
+                this.saveEdits(card)
+            }
         },
         components: { ListForm, RenderList, EditCard, Pagination },
+        /**
+         * загружает данные созданных задач
+         * @return {Promise<void>}
+         */
         async mounted() {
             await this.firestore();
 

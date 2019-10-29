@@ -26,6 +26,9 @@
         },
         methods: {
             ...mapActions(["addCard"]),
+            /**
+             * Отправляет не пустую запись на сервер
+             */
             submit() {
                 if(this.body){
                     const submit = { body: this.body, createdAt: Date.now(), isDone: false};
@@ -33,6 +36,9 @@
                     this.body = '';
                 }
             },
+            /**
+             * стирает введенные данные
+             */
             clearData(){
                 this.body = ''
             }
